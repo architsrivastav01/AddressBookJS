@@ -116,6 +116,61 @@ try {
     console.error(error);
 }
 
+// UC4: Find Existing Contact by Name and Edit it
+
+// Find Contact by Name
+AddressBookManager.prototype.findContact = function (bookName, firstName, lastName) {
+    if (this.addressBooks.has(bookName)) {
+        const addressBook = this.addressBooks.get(bookName);
+        return addressBook.find(contact => contact.firstName === firstName && contact.lastName === lastName);
+    }
+    console.log(`Address Book '${bookName}' does not exist.`);
+    return null;
+};
+
+// Edit Contact
+AddressBookManager.prototype.editContact = function (bookName, firstName, lastName, newContactData) {
+    const contact = this.findContact(bookName, firstName, lastName);
+    if (contact) {
+        try {
+            contact.firstName = newContactData.firstName || contact.firstName;
+            contact.lastName = newContactData.lastName || contact.lastName;
+            contact.address = newContactData.address || contact.address;
+            contact.city = newContactData.city || contact.city;
+            contact.state = newContactData.state || contact.state;
+            contact.zip = newContactData.zip || contact.zip;
+            contact.phoneNumber = newContactData.phoneNumber || contact.phoneNumber;
+            contact.email = newContactData.email || contact.email;
+            console.log(`Contact updated successfully in '${bookName}'.`);
+        } catch (error) {
+            console.error("Failed to update contact:", error);
+        }
+    } else {
+        console.log("Contact not found.");
+    }
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Friends");
+
+let contact1 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+manager.addContactToAddressBook("Friends", contact1);
+
+console.log("Before Edit:");
+manager.viewAddressBook("Friends");
+
+// Edit Contact
+manager.editContact("Friends", "Amit", "Sharma", {
+    address: "Sector 20",
+    phoneNumber: "91 9999999999"
+});
+
+console.log("After Edit:");
+manager.viewAddressBook("Friends");
+
+
+
 
 
 
