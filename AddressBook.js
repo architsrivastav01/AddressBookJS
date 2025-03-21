@@ -211,6 +211,34 @@ console.log("After Deletion:");
 manager.viewAddressBook("Friends");
 
 
+// UC6: Find Number of Contacts using Reduce
+
+// Get Contact Count using Reduce
+AddressBookManager.prototype.getContactCount = function (bookName) {
+    if (this.addressBooks.has(bookName)) {
+        const addressBook = this.addressBooks.get(bookName);
+        const contactCount = addressBook.reduce((count) => count + 1, 0);
+        console.log(`Total Contacts in '${bookName}': ${contactCount}`);
+        return contactCount;
+    } else {
+        console.log(`Address Book '${bookName}' does not exist.`);
+        return 0;
+    }
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Family");
+
+contact1 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+contact2 = new Contact("Rahul", "Verma", "MG Road", "Bangalore", "Karnataka", "560001", "91 9876543211", "rahul.verma@gmail.com");
+
+manager.addContactToAddressBook("Family", contact1);
+manager.addContactToAddressBook("Family", contact2);
+
+manager.getContactCount("Family");
+
+
 
 
 
