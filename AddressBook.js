@@ -238,6 +238,43 @@ manager.addContactToAddressBook("Family", contact2);
 
 manager.getContactCount("Family");
 
+// UC7: Prevent Duplicate Contact Entry using Array Functions
+
+// Check for Duplicate Contact
+AddressBookManager.prototype.isDuplicateContact = function (bookName, firstName, lastName) {
+    if (this.addressBooks.has(bookName)) {
+        const addressBook = this.addressBooks.get(bookName);
+        return addressBook.some(contact => contact.firstName === firstName && contact.lastName === lastName);
+    }
+    return false;
+};
+
+// Enhanced Add Contact with Duplicate Check
+AddressBookManager.prototype.addContactToAddressBook = function (bookName, contact) {
+    if (this.addressBooks.has(bookName)) {
+        if (this.isDuplicateContact(bookName, contact.firstName, contact.lastName)) {
+            console.log(`Duplicate Contact: '${contact.firstName} ${contact.lastName}' already exists in '${bookName}'.`);
+        } else {
+            this.addressBooks.get(bookName).push(contact);
+            console.log(`Contact added to Address Book '${bookName}'.`);
+        }
+    } else {
+        console.log(`Address Book '${bookName}' does not exist.`);
+    }
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Friends");
+
+contact1 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+contact2 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+
+manager.addContactToAddressBook("Friends", contact1);
+manager.addContactToAddressBook("Friends", contact2); // Duplicate Entry
+manager.viewAddressBook("Friends");
+
+
 
 
 
