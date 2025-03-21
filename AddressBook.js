@@ -407,6 +407,44 @@ manager.getContactCountByCityOrState("Noida", "city");
 // Count by State
 manager.getContactCountByCityOrState("Uttar Pradesh", "state");
 
+// UC11: Sort Contacts Alphabetically by Name
+
+// Override toString Method for Better Display
+Contact.prototype.toString = function () {
+    return `Name: ${this.firstName} ${this.lastName}, Address: ${this.address}, City: ${this.city}, State: ${this.state}, Zip: ${this.zip}, Phone: ${this.phone}, Email: ${this.email}`;
+};
+
+// Sort Contacts by Name
+AddressBookManager.prototype.sortContactsByName = function (bookName) {
+    if (this.addressBooks.has(bookName)) {
+        const addressBook = this.addressBooks.get(bookName);
+        const sortedContacts = addressBook.sort((a, b) => {
+            const nameA = `${a.firstName.toLowerCase()} ${a.lastName.toLowerCase()}`;
+            const nameB = `${b.firstName.toLowerCase()} ${b.lastName.toLowerCase()}`;
+            return nameA.localeCompare(nameB);
+        });
+
+        console.log(`Contacts in '${bookName}' sorted by Name:`);
+        sortedContacts.forEach(contact => console.log(contact.toString()));
+    } else {
+        console.log(`Address Book '${bookName}' does not exist.`);
+    }
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Friends");
+
+contact1 = new Contact("Rahul", "Verma", "MG Road", "Bangalore", "Karnataka", "560001", "91 9876543211", "rahul.verma@gmail.com");
+contact2 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+contact3 = new Contact("Sita", "Gupta", "Sector 20", "Noida", "Uttar Pradesh", "201301", "91 9999999999", "sita.gupta@gmail.com");
+
+manager.addContactToAddressBook("Friends", contact1);
+manager.addContactToAddressBook("Friends", contact2);
+manager.addContactToAddressBook("Friends", contact3);
+
+// Sort by Name
+manager.sortContactsByName("Friends");
 
 
 
