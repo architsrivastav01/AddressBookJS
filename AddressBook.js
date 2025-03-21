@@ -169,6 +169,48 @@ manager.editContact("Friends", "Amit", "Sharma", {
 console.log("After Edit:");
 manager.viewAddressBook("Friends");
 
+// UC5: Find and Delete Contact by Name
+
+// Delete Contact by Name
+AddressBookManager.prototype.deleteContact = function (bookName, firstName, lastName) {
+    if (this.addressBooks.has(bookName)) {
+        let addressBook = this.addressBooks.get(bookName);
+        const initialLength = addressBook.length;
+
+        // Filter kar ke matching contact ko remove karenge
+        addressBook = addressBook.filter(contact => !(contact.firstName === firstName && contact.lastName === lastName));
+
+        if (addressBook.length < initialLength) {
+            this.addressBooks.set(bookName, addressBook);
+            console.log(`Contact '${firstName} ${lastName}' deleted successfully from '${bookName}'.`);
+        } else {
+            console.log("Contact not found.");
+        }
+    } else {
+        console.log(`Address Book '${bookName}' does not exist.`);
+    }
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Friends");
+
+contact1 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+let contact2 = new Contact("Rahul", "Verma", "MG Road", "Bangalore", "Karnataka", "560001", "91 9876543211", "rahul.verma@gmail.com");
+
+manager.addContactToAddressBook("Friends", contact1);
+manager.addContactToAddressBook("Friends", contact2);
+
+console.log("Before Deletion:");
+manager.viewAddressBook("Friends");
+
+// Contact Delete Karna
+manager.deleteContact("Friends", "Amit", "Sharma");
+
+console.log("After Deletion:");
+manager.viewAddressBook("Friends");
+
+
 
 
 
