@@ -58,3 +58,6 @@ try {
 } catch (error) {
     console.error(error);
 }
+
+// UC2 : Ability to ensure Valid Contacts are added
+// Already Implemented in UC1.
