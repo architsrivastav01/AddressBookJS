@@ -361,7 +361,52 @@ manager.addContactToAddressBook("Friends", contact2);
 manager.viewPersonsByCityOrState("Noida", "city");
 
 // View by State
-manager.viewPersonsByCityOrState("Uttar Pradesh","city");
+manager.viewPersonsByCityOrState("Karnataka", "state");
+
+// UC10: Get Number of Contacts by City or State using Array Functions
+
+// Get Contact Count by City or State
+AddressBookManager.prototype.getContactCountByCityOrState = function (location, type) {
+    let totalContacts = 0;
+
+    this.addressBooks.forEach((addressBook) => {
+        const count = addressBook
+            .filter(contact => {
+                if (type === "city") {
+                    return contact.city.toLowerCase() === location.toLowerCase();
+                } else if (type === "state") {
+                    return contact.state.toLowerCase() === location.toLowerCase();
+                }
+                return false;
+            })
+            .reduce((count) => count + 1, 0);
+
+        totalContacts += count;
+    });
+
+    console.log(`Total Contacts in '${location}' (${type}): ${totalContacts}`);
+    return totalContacts;
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Friends");
+manager.createAddressBook("Family");
+
+contact1 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+contact2 = new Contact("Rahul", "Verma", "MG Road", "Bangalore", "Karnataka", "560001", "91 9876543211", "rahul.verma@gmail.com");
+contact3 = new Contact("Sita", "Gupta", "Sector 20", "Noida", "Uttar Pradesh", "201301", "91 9999999999", "sita.gupta@gmail.com");
+
+manager.addContactToAddressBook("Friends", contact1);
+manager.addContactToAddressBook("Friends", contact2);
+manager.addContactToAddressBook("Family", contact3);
+
+// Count by City
+manager.getContactCountByCityOrState("Noida", "city");
+
+// Count by State
+manager.getContactCountByCityOrState("Uttar Pradesh", "state");
+
 
 
 
