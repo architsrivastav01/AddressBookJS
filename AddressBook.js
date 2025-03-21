@@ -317,6 +317,51 @@ manager.searchPersonByCityOrState("Friends", "Noida", "city");
 // Search by State
 manager.searchPersonByCityOrState("Friends", "Karnataka", "state");
 
+// UC9: View Persons by City or State using Array Functions
+
+// View Persons by City or State
+AddressBookManager.prototype.viewPersonsByCityOrState = function (location, type) {
+    console.log(`Viewing persons in '${location}' (${type}):`);
+    let personsFound = false;
+
+    this.addressBooks.forEach((addressBook, bookName) => {
+        const result = addressBook.filter(contact => {
+            if (type === "city") {
+                return contact.city.toLowerCase() === location.toLowerCase();
+            } else if (type === "state") {
+                return contact.state.toLowerCase() === location.toLowerCase();
+            }
+            return false;
+        });
+
+        if (result.length > 0) {
+            personsFound = true;
+            console.log(`Address Book: ${bookName}`);
+            result.map(contact => console.log(contact.toString()));
+        }
+    });
+
+    if (!personsFound) {
+        console.log(`No persons found in '${location}' (${type}).`);
+    }
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Family");
+manager.createAddressBook("Friends");
+
+contact1 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+contact2 = new Contact("Rahul", "Verma", "MG Road", "Bangalore", "Karnataka", "560001", "91 9876543211", "rahul.verma@gmail.com");
+
+manager.addContactToAddressBook("Family", contact1);
+manager.addContactToAddressBook("Friends", contact2);
+
+// View by City
+manager.viewPersonsByCityOrState("Noida", "city");
+
+// View by State
+manager.viewPersonsByCityOrState("Uttar Pradesh","city");
 
 
 
