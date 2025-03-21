@@ -446,6 +446,51 @@ manager.addContactToAddressBook("Friends", contact3);
 // Sort by Name
 manager.sortContactsByName("Friends");
 
+// UC12: Sort Contacts by City, State, or Zip
+
+// Sort Contacts Based on City, State, or Zip
+AddressBookManager.prototype.sortContactsByField = function (bookName, field) {
+    if (this.addressBooks.has(bookName)) {
+        const addressBook = this.addressBooks.get(bookName);
+
+        if (!['city', 'state', 'zip'].includes(field)) {
+            console.log("Invalid field! Please choose 'city', 'state', or 'zip'.");
+            return;
+        }
+
+        const sortedContacts = addressBook.sort((a, b) => {
+            const valueA = a[field].toString().toLowerCase();
+            const valueB = b[field].toString().toLowerCase();
+            return valueA.localeCompare(valueB);
+        });
+
+        console.log(`Contacts in '${bookName}' sorted by ${field.toUpperCase()}:`);
+        sortedContacts.forEach(contact => console.log(contact.toString()));
+    } else {
+        console.log(`Address Book '${bookName}' does not exist.`);
+    }
+};
+
+// Example Usage
+manager = new AddressBookManager();
+manager.createAddressBook("Friends");
+
+contact1 = new Contact("Rahul", "Verma", "MG Road", "Bangalore", "Karnataka", "560001", "91 9876543211", "rahul.verma@gmail.com");
+contact2 = new Contact("Amit", "Sharma", "Sector 15", "Noida", "Uttar Pradesh", "201301", "91 9876543210", "amit.sharma@gmail.com");
+contact3 = new Contact("Sita", "Gupta", "Sector 20", "Noida", "Uttar Pradesh", "201305", "91 9999999999", "sita.gupta@gmail.com");
+
+manager.addContactToAddressBook("Friends", contact1);
+manager.addContactToAddressBook("Friends", contact2);
+manager.addContactToAddressBook("Friends", contact3);
+
+// Sort by City
+manager.sortContactsByField("Friends", "city");
+
+// Sort by State
+manager.sortContactsByField("Friends", "state");
+
+// Sort by Zip
+manager.sortContactsByField("Friends", "zip");
 
 
 
